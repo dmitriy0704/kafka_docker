@@ -5,11 +5,14 @@ services:
     container_name: zookeeper
     ports:
       - "2181:2181"
+    volumes: 
+      - ./zoo/data:/var/lib/zookeeper/data
+      - ./zoo/log:/var/lib/zookeeper/log
     networks:
       - kafka-net
   kafka:
     image: wurstmeister/kafka
-    container_name: kafka
+    container_name: kafka-cont
     ports:
       - "9092:9092"
     environment:
@@ -19,6 +22,8 @@ services:
       KAFKA_INTER_BROKER_LISTENER_NAME: INSIDE
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
       KAFKA_CREATE_TOPICS: "baeldung:1:1"
+    volumes: 
+      - ./broker/data:/var/lib/kafka/data
     networks:
       - kafka-net
   
